@@ -1,0 +1,23 @@
+.países::before {
+  margin-right: 10px;
+  margin-left: 2px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f57d";
+}
+
+.tamaño::before {
+  margin-right: 10px;
+  margin-left: 2px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f236";
+}
+
+.precio::before {
+  margin-right: 10px;
+  margin-left: 2px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f155";
+}

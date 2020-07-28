@@ -1,0 +1,14 @@
+.desde::before {
+  margin-right: 10px;
+  margin-left: 2px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f2f5";
+}
+.hasta::before {
+  margin-right: 10px;
+  margin-left: 2px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f2f6";
+}
