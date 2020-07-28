@@ -7,6 +7,7 @@ const Filters = (props) => {
         items={filter.items}
         ID={filter.ID}
         icon={filter.name}
+        selected={filter.selected}
         onHandleClick={props.handleDropdowns}
       />
     ));

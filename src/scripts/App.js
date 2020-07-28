@@ -31,18 +31,6 @@ class App extends React.Component {
       },
       {
         ID: 4,
-        name: "tamaño",
-        type: "dropdown",
-        items: [
-          { value: 0, text: "Cualquier tamaño" },
-          { value: 1, text: "Pequeño" },
-          { value: 2, text: "Mediano" },
-          { value: 3, text: "Grande" },
-        ],
-        selected: 0,
-      },
-      {
-        ID: 5,
         name: "precio",
         type: "dropdown",
         items: [
@@ -51,6 +39,19 @@ class App extends React.Component {
           { value: 2, text: "$$" },
           { value: 3, text: "$$$" },
           { value: 4, text: "$$$$" },
+        ],
+
+        selected: 0,
+      },
+      {
+        ID: 5,
+        name: "tamaño",
+        type: "dropdown",
+        items: [
+          { value: 0, text: "Cualquier tamaño" },
+          { value: 1, text: "Hotel Pequeño" },
+          { value: 2, text: "Hotel Mediano" },
+          { value: 3, text: "Hotel Grande" },
         ],
         selected: 0,
       },
@@ -129,11 +130,9 @@ class App extends React.Component {
     });
     this.setState({ hotelsData: baseHotelsData });
   };
-  handleDropdowns = (e) => {
+  handleDropdowns = (elementId, ID) => {
     const newState = this.state.filters.map((item) =>
-      item.ID === parseInt(e.target.name)
-        ? { ...item, selected: e.target.value }
-        : item
+      item.ID === ID ? { ...item, selected: elementId } : item
     );
     this.setState({ filters: newState }, this.filterHotels);
   };
@@ -147,23 +146,26 @@ class App extends React.Component {
       this.state.filters.find((item) => item.name === "hasta").value
     );
     let newState = {};
-    if (desde > hasta) {
-      newState = this.state.filters.map((item) =>
-        item.ID === 2
+
+    newState = this.state.filters.map((item) =>
+      item.ID === 2
+        ? desde > hasta
           ? {
               ...item,
               value: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
+              min: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
               stringDate: `${moment(desdeString, "YYYY-MM-DD")
                 .locale("es")
                 .format("dddd")}, ${moment(desdeString, "YYYY-MM-DD")
                 .locale("es")
                 .format("LL")}`,
             }
-          : item
-      );
-    } else {
-      newState = this.state.filters;
-    }
+          : {
+              ...item,
+              min: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
+            }
+        : item
+    );
     this.setState({ filters: newState });
   };
   handleDates = (e) => {

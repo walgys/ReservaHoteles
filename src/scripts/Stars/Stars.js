@@ -4,7 +4,7 @@ const Stars = (props) => {
   ));
   stars.push(
     [...Array(4 - props.price).keys()].map((item, index) => (
-      <i key={`light-${index}`} className="dimmed fas fa-dollar-sign" />
+      <i key={`light-${index}`} className="start-dimmed fas fa-dollar-sign" />
     ))
   );
   return <div className="stars-bg bg-info p-2 m-2">{stars}</div>;
