@@ -1,23 +1,68 @@
-.países::before {
+.filter-países::before {
   margin-right: 10px;
   margin-left: 2px;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
+  color: rgb(230, 216, 199);
   content: "\f57d";
 }
 
-.tamaño::before {
+.filter-tamaño::before {
   margin-right: 10px;
   margin-left: 2px;
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
+  color: rgb(230, 216, 199);
   content: "\f236";
 }
 
-.precio::before {
+.filter-precio::before {
   margin-right: 10px;
   margin-left: 2px;
   font-family: "Font Awesome 5 Free";
+  color: rgb(230, 216, 199);
   font-weight: 900;
   content: "\f155";
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  border: 1px solid grey;
+}
+.dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  top: 32px;
+  background-color: white;
+  position: absolute;
+  width: inherit;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown li a {
+  color: #000;
+  text-decoration: none;
+  user-select: none;
+}
+.dropdown li {
+  padding: 8px 16px;
+}
+.dropdown li:last-child {
+  border-bottom: none;
+}
+.dropdown li:hover {
+  background-color: #e5e5e5;
+}
+.dropdown .button {
+  height: 30px;
+  padding: 3px 7px;
+  width: inherit;
+  background-color: white;
+  color: black;
+}
+
+.dropdown .button div {
+  margin-top: 5px;
+  color: blue;
 }
