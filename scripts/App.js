@@ -6,8 +6,8 @@ class App extends React.Component {
         ID: 1,
         name: "desde",
         type: "fecha",
-        value: moment().format("YYYY-MM-DD"),
-        min: moment().format("YYYY-MM-DD"),
+        value: today,
+        min: today,
         stringDate: `${moment().locale("es").format("dddd")}, ${moment()
           .locale("es")
           .format("LL")}`,
@@ -16,8 +16,8 @@ class App extends React.Component {
         ID: 2,
         name: "hasta",
         type: "fecha",
-        value: moment().format("YYYY-MM-DD"),
-        min: moment().format("YYYY-MM-DD"),
+        value: today,
+        min: today,
         stringDate: `${moment().locale("es").format("dddd")}, ${moment()
           .locale("es")
           .format("LL")}`,
@@ -57,6 +57,9 @@ class App extends React.Component {
       },
     ],
   };
+  componentDidUpdate() {
+    console.log(this.state.hotelsData);
+  }
   componentDidMount() {
     const Paises = [
       ...new Set(hotelsData.map((item) => item.country)),
@@ -66,15 +69,22 @@ class App extends React.Component {
         ? { ...item, items: [...item.items, ...Paises] }
         : item
     );
-    this.setState({
-      filters: newState,
-    });
+    this.setState(
+      {
+        filters: newState,
+      },
+      this.filterHotels
+    );
   }
+
   filterHotels = () => {
     let baseHotelsData = hotelsData;
     let country = "";
     let tamaño = "";
     let precio = "";
+    const desde = new Date(this.state.filters[0].value);
+    const hasta = new Date(this.state.filters[1].value);
+
     //Obtener valores de los filtros
 
     this.state.filters.map((item) => {
@@ -85,17 +95,36 @@ class App extends React.Component {
           )[0];
           break;
         case 4:
-          tamaño = item.items.filter(
+          precio = item.items.filter(
             (i) => i.value === parseInt(item.selected)
           )[0];
           break;
         case 5:
-          precio = item.items.filter(
+          tamaño = item.items.filter(
             (i) => i.value === parseInt(item.selected)
           )[0];
           break;
         default:
           break;
+      }
+    });
+
+    baseHotelsData = baseHotelsData.filter((hotel) => {
+      if (
+        hotel.availabilityFrom <= desde.valueOf() + 86400000 &&
+        hotel.availabilityTo >= hasta.valueOf()
+      ) {
+        console.log(
+          " hotel: " +
+            hotel.name +
+            " desde " +
+            (hotel.availabilityFrom - today.valueOf()) / 86400000 +
+            " días hasta: " +
+            (hotel.availabilityTo - today.valueOf()) / 86400000
+        );
+        return true;
+      } else {
+        return false;
       }
     });
     //Filtrado de Hoteles por País
@@ -112,7 +141,7 @@ class App extends React.Component {
         case 1:
           return hotel.rooms < 10;
         case 2:
-          return hotel.rooms < 20 ? (hotel.rooms > 9 ? true : false) : false;
+          return hotel.rooms > 9 ? (hotel.rooms < 20 ? true : false) : false;
         case 3:
           return hotel.rooms > 19;
         default:
@@ -152,8 +181,8 @@ class App extends React.Component {
         ? desde > hasta
           ? {
               ...item,
-              value: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
-              min: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
+              value: desde,
+              min: desde,
               stringDate: `${moment(desdeString, "YYYY-MM-DD")
                 .locale("es")
                 .format("dddd")}, ${moment(desdeString, "YYYY-MM-DD")
@@ -162,18 +191,19 @@ class App extends React.Component {
             }
           : {
               ...item,
-              min: moment(desdeString, "YYYY-MM-DD").format("YYYY-MM-DD"),
+              min: desde,
             }
         : item
     );
-    this.setState({ filters: newState });
+    this.setState({ filters: newState }, this.filterHotels);
   };
   handleDates = (e) => {
+    const value = new Date(e.target.value + "T00:00:00");
     const newState = this.state.filters.map((item) =>
       item.ID === parseInt(e.target.name)
         ? {
             ...item,
-            value: e.target.value,
+            value: value,
             stringDate: `${moment(e.target.value, "YYYY-MM-DD")
               .locale("es")
               .format("dddd")}, ${moment(e.target.value, "YYYY-MM-DD")
