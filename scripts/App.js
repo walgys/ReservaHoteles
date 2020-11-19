@@ -64,9 +64,6 @@ class App extends React.Component {
       .format("LL")}`;
   }
 
-  componentDidUpdate() {
-    console.log(this.state);
-  }
   componentDidMount() {
     const Paises = [
       ...new Set(hotelsData.map((item) => item.country)),
@@ -193,7 +190,6 @@ class App extends React.Component {
     this.setState({ filters: newState }, this.filterHotels);
   };
   handleDates = (e) => {
-    console.log(e.target.value);
     if(e.target.value.split('-')[0].replace(/^0+/,'').length == 4){
       const value = dayjs(e.target.value);
           const newState = this.state.filters.map((item) =>

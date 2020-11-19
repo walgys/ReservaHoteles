@@ -5,7 +5,8 @@ const FilterDates = (props) => {
       type="date"
       name={props.name}
       min={dayjs(props.min).format("YYYY-MM-DD")}
-      onInput={props.onChange}
+      onInput={props.onInput}
+      onChange={()=> false}
       max={props.max}
       value={dayjs(props.value).format("YYYY-MM-DD")}
     />

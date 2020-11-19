@@ -20,7 +20,7 @@ const Filters = (props) => {
         min={filter.min}
         name={filter.ID}
         icon={filter.name}
-        onChange={props.handleDates}
+        onInput={props.handleDates}
       />
     ));
 
