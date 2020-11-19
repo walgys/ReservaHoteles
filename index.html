@@ -17,9 +17,36 @@
       crossorigin="anonymous"
     />
     <script
-      src="https://momentjs.com/downloads/moment-with-locales.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.35/dayjs.min.js"
+      integrity="sha512-nG86d7fodOg4f3fZF796WwIj6WwxdWI2DCXCarXZU05/UNHzC2CHQkD6dNdj6Ahaurrbed66rsvTt6r58RQ5WA=="
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.36/locale/es.min.js"
+      integrity="sha512-OXy30agOq/KkLVI1lickBn2JCJGlTxoTWXUGEpgrD8XhWG8cuZOHfySxm5cuUo94BwLT7cJ9qAmP1Am93j6IWg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.36/plugin/isSameOrBefore.min.js"
+      integrity="sha512-QZAo8wBbYOaKc3o+DlReJXE6NHoWo99pw+wsQWk46SzOyDJODgA3VHJ0rliLBj4OQcJUq02W7gpb/crpRS5Xdg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.36/plugin/isSameOrAfter.min.js"
+      integrity="sha512-/Ukyr5FixXW2vIjoXE3d9nD9pNSlhXDrjMqB14InBmMGH9Vu5yGbRumJ6vys+UqJDmNe5E0DKZtlhleBGtDYpA=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.36/plugin/localizedFormat.min.js"
+      integrity="sha512-85aup/PuxBbkUL6yEpshXfwrOWNt7rvFzFrfvYgnrBBQK2r1FEyqD+5qGVNPWSm8xxafm3mhBOvd975HBSaXNA=="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      dayjs.extend(window.dayjs_plugin_localizedFormat);
+      dayjs.extend(window.dayjs_plugin_isSameOrAfter);
+      dayjs.extend(window.dayjs_plugin_localizedFormat);
+    </script>
+
     <link rel="stylesheet" href="./scripts//Header/header.css" />
     <link rel="stylesheet" href="./scripts//Filters/filters.css" />
     <link rel="stylesheet" href="./scripts//Hotel/hotel.css" />

@@ -6,21 +6,19 @@ class App extends React.Component {
         ID: 1,
         name: "desde",
         type: "fecha",
-        value: today,
+        value: dayjs(today),
         min: today,
-        stringDate: `${moment().locale("es").format("dddd")}, ${moment()
-          .locale("es")
-          .format("LL")}`,
+        max: "9999-12-31",
+        stringDate: this.stringDate(),
       },
       {
         ID: 2,
         name: "hasta",
         type: "fecha",
-        value: today,
+        value: dayjs(today),
         min: today,
-        stringDate: `${moment().locale("es").format("dddd")}, ${moment()
-          .locale("es")
-          .format("LL")}`,
+        max: "9999-12-31",
+        stringDate: this.stringDate(),
       },
       {
         ID: 3,
@@ -57,8 +55,17 @@ class App extends React.Component {
       },
     ],
   };
+
+  stringDate(date = today) {
+    const weekDay = dayjs(date).locale("es").format("dddd");
+
+    return `${weekDay.charAt(0).toUpperCase() + weekDay.slice(1)}, ${dayjs(date)
+      .locale("es")
+      .format("LL")}`;
+  }
+
   componentDidUpdate() {
-    console.log(this.state.hotelsData);
+    console.log(this.state);
   }
   componentDidMount() {
     const Paises = [
@@ -111,17 +118,9 @@ class App extends React.Component {
 
     baseHotelsData = baseHotelsData.filter((hotel) => {
       if (
-        hotel.availabilityFrom <= desde.valueOf() + 86400000 &&
-        hotel.availabilityTo >= hasta.valueOf()
+        dayjs(hotel.availabilityFrom).isBefore(dayjs(desde).add(1, "day")) &&
+        dayjs(hotel.availabilityTo).isAfter(dayjs(hasta))
       ) {
-        console.log(
-          " hotel: " +
-            hotel.name +
-            " desde " +
-            (hotel.availabilityFrom - today.valueOf()) / 86400000 +
-            " días hasta: " +
-            (hotel.availabilityTo - today.valueOf()) / 86400000
-        );
         return true;
       } else {
         return false;
@@ -181,39 +180,35 @@ class App extends React.Component {
         ? desde > hasta
           ? {
               ...item,
-              value: desde,
-              min: desde,
-              stringDate: `${moment(desdeString, "YYYY-MM-DD")
-                .locale("es")
-                .format("dddd")}, ${moment(desdeString, "YYYY-MM-DD")
-                .locale("es")
-                .format("LL")}`,
+              value: dayjs(desde),
+              min: dayjs(desde),
+              stringDate: this.stringDate(desdeString),
             }
           : {
               ...item,
-              min: desde,
+              min: dayjs(desde),
             }
         : item
     );
     this.setState({ filters: newState }, this.filterHotels);
   };
   handleDates = (e) => {
-    const value = new Date(e.target.value + "T00:00:00");
-    const newState = this.state.filters.map((item) =>
-      item.ID === parseInt(e.target.name)
-        ? {
-            ...item,
-            value: value,
-            stringDate: `${moment(e.target.value, "YYYY-MM-DD")
-              .locale("es")
-              .format("dddd")}, ${moment(e.target.value, "YYYY-MM-DD")
-              .locale("es")
-              .format("LL")}`,
-          }
-        : item
-    );
-    this.setState({ filters: newState }, this.compararFechas);
-  };
+    console.log(e.target.value);
+    if(e.target.value.split('-')[0].replace(/^0+/,'').length == 4){
+      const value = dayjs(e.target.value);
+          const newState = this.state.filters.map((item) =>
+            item.ID === parseInt(e.target.name)
+              ? {
+                  ...item,
+                  value: value,
+                  stringDate: this.stringDate(e.target.value),
+                }
+              : item
+          )
+          this.setState({ filters: newState }, this.compararFechas);
+        }
+    }
+    
   render() {
     const desde = this.state.filters.find((item) => item.name === "desde");
     const hasta = this.state.filters.find((item) => item.name === "hasta");
